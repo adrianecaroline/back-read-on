@@ -11,6 +11,37 @@ module.exports = {
     }
   },
 
+  async GetByGenre (req, res) {
+    try {
+      const id = await req.params.genre;
+
+      const data = await Book.find( {genre: id});
+
+      if (data) {
+        return res.status(200).json(data);
+      } else {
+        return res.json("o erro ");
+      }
+    } catch(err) {
+      return res.json("o erro é " + err);
+    }
+  },
+  async ListGenre (req, res) {
+    try {
+      const id = await req.body.genre;
+
+      const data = await Book.find( {genre: id});
+
+      if (data) {
+        return res.status(200).json(data);
+      } else {
+        return res.json("o erro ");
+      }
+    } catch(err) {
+      return res.json("o erro é " + err);
+    }
+  },
+
   async BookCreate(req, res) {
     const { title, author, pages, year, genre, image } = req.body;
     const book = { title, author, pages, year, genre, image };
@@ -40,5 +71,23 @@ module.exports = {
     } catch (err) {
       res.status(500).json({ Err: "An error has occurred " + err });
     }
+  },
+
+  async DeletTitle(req, res) {
+    try {
+      const title = req.params.title;
+
+      const data = await Book.find({ title: title });
+
+      if (data != null) {
+        await Book.deleteOne({ title: title });
+      } else {
+        return res.json("Could not delete.");
+      }
+
+      return res.status(200).json("Successfully deleted!");
+    } catch (err) {
+      res.status(500).json({ Err: "An error has occurred " + err });
+    } 
   },
 };
