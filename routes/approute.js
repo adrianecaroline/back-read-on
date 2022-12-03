@@ -6,13 +6,18 @@ const multer = require('../multer');
 
 routes.post("/book", BookController.BookCreate);
 routes.get("/books", BookController.GetBooks);
+
 routes.delete("/book/:id", BookController.DeleteBook);
 
 routes.delete("/title/:id", BookController.DeletTitle);
 
 routes.post("/image", multer.single('image'), BookController.BookCreate);
 
-routes.get('/book/genre/:genre', BookController.GetByGenre);
+routes.post('/book/title/', async (req,res) =>{
+  const data = await BookController.GetByTitle (req, res);
+  return data; });
+
+//routes.get("/book/title/:title", BookController.GetByTitle);
 
 routes.post('/book/genre/', async (req, res) => {
   const data = await BookController.ListGenre (req, res);

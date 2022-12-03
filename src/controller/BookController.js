@@ -41,6 +41,23 @@ module.exports = {
       return res.json("o erro é " + err);
     }
   },
+  
+  async GetByTitle (req, res) {
+    try {
+      const id = await req.body.title;
+
+      const data = await Book.find( {title: {$regex: id}});
+
+      if (data) {
+        console.log(data)
+        return res.status(200).json(data);
+      } else {
+        return res.status(500).json("o erro ");
+      }
+    } catch(err) {
+      return res.status(500).json("o erro é " + err);
+    }
+  },
 
   async BookCreate(req, res) {
     const { title, author, pages, year, genre, image } = req.body;
